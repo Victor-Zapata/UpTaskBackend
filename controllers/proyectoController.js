@@ -30,7 +30,7 @@ const obtenerProyecto = async (req, res) => {
     const { id } = req.params;
 
     const proyecto = await Proyecto.findById(id)
-        .populate('tareas')
+        .populate({ path: 'tareas', populate: { path: 'completado', select: 'nombre' } })
         .populate('colaboradores', 'nombre email') //en nombre e email le estoy pidiendo
     //lo que quiero traerme, no puedo hacerlo con select porque no estoy consultando un modelo específico sino que estoy cruzando datos entre colecciones
     if (!proyecto) {
